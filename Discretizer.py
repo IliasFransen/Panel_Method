@@ -3,10 +3,10 @@ import numpy as np
 def z (x: list, m: int, p: int):
     z = np.zeros(len(x))
     for i in range(len(x)):
-        if x < p:
-            z[i] = m/(p**2)*(2*p*x - x**2)
+        if x[i] < p:
+            z[i] = m/(p**2)*(2*p*x[i] - x[i]**2)
         else:
-            z[i] = m/((1-p)**2)*(1-2*p + 2*p*x - x**2)
+            z[i] = m/((1-p)**2)*(1-2*p + 2*p*x[i] - x[i]**2)
     return z
 
 def angle_norm (x: list, z: list):

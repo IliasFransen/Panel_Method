@@ -1,8 +1,8 @@
 import numpy as np
 
 def vel_vect (x14: list, z14: list, x34: list, z34: list):
-    u = np.zeros(len(x14), len(x14))
-    w = np.zeros(len(x14), len(x14))
+    u = np.zeros((len(x14), len(x14)))
+    w = np.zeros((len(x14), len(x14)))
     for i in range(len(x34)):
         for j in range(len(x14)):
             u[i,j] = 1/(2*np.pi)*(x34[i]-x14[j])/((x34[i]-x14[j])**2+(z34[i]-z14[j])**2)
