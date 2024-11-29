@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 def vel_vect (x14: list, z14: list, x34: list, z34: list):
     u = np.zeros((len(x14), len(x14)))
