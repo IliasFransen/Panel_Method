@@ -45,8 +45,9 @@ def main (NACA1: int, NACA2: int, N_pts: int, c):
     #print(a_ij)
     Gamma = np.linalg.solve(a_ij, rhs)
     #print(Gamma)
-    Cl = ClCm(Gamma, V_inf, c)
-    print(np.round(Cl,5))
+    Cl, Cm = ClCm(Gamma, V_inf, c, x14)
+    print('Lift coefficient is', Cl)
+    print('Moment coefficient is', Cm)
 
 if __name__ == "__main__":
     main(NACA1, NACA2, N_pts, c)

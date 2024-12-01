@@ -30,7 +30,8 @@ def Coeff (u: list, w: list, norm: list):
             Coeff[i,j] = np.dot([u[i,j],w[i,j]], norm[i])
     return Coeff
 
-def ClCm (gamma: list, V_inf: float, c: float):
+def ClCm (gamma: list, V_inf: float, c: float, x14: list):
     Gamma = np.sum(gamma)
     cl = 2*Gamma /(V_inf *c)
-    return cl
+    cm = 2/(V_inf*c**2) * -np.sum(np.dot(gamma, x14)) 
+    return cl, cm
