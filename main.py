@@ -1,25 +1,28 @@
 import numpy as np
 
 from Discretizer import z, angle_norm, Point14, Point34, norm
-from Vort2D import vel_vect, Q_inf, RHS, Coeff
+from Vort2D import vel_vect, Q_inf, RHS, Coeff, ClCm
 
 #Conditions
 
-AoA = 0
+AoA = np.radians(5.0)
 
 V_inf = 1
 
+c = 1
+
 #NACA 4 digit airfoil
 
-NACA1 = 0
+NACA1 = 2
 
-NACA2 = 0
+NACA2 = 4
 
 N_pts = 4
 
+
 x = np.linspace(0,1,N_pts)
 
-def main (NACA1: int, NACA2: int, N_pts: int):
+def main (NACA1: int, NACA2: int, N_pts: int, c):
     z_pt = z(x, NACA1, NACA2)
     #print(z_pt)
     angle_normal = angle_norm(x, z_pt)
@@ -33,12 +36,17 @@ def main (NACA1: int, NACA2: int, N_pts: int):
     normal = norm(angle_normal)
     #print(normal)
     u, w = vel_vect(x14, z14, x34, z34)
-    #print(w)
+    #print(u)
     Q_infty = Q_inf(AoA, V_inf)
+    #print(Q_infty)
     rhs = RHS(normal, Q_infty)
+    #print(rhs)
     a_ij = Coeff(u, w, normal)
+    #print(a_ij)
     Gamma = np.linalg.solve(a_ij, rhs)
     #print(Gamma)
+    Cl = ClCm(Gamma, V_inf, c)
+    print(np.round(Cl,5))
 
 if __name__ == "__main__":
-    main(NACA1, NACA2, N_pts)
+    main(NACA1, NACA2, N_pts, c)
