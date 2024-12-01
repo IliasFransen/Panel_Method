@@ -1,11 +1,12 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 from Discretizer import z, angle_norm, Point14, Point34, norm
 from Vort2D import vel_vect, Q_inf, RHS, Coeff, ClCm
 
 #Conditions
 
-AoA = np.radians(5.0)
+AoA = np.linspace(np.radians(-2), np.radians(8), 30)
 
 V_inf = 1
 
@@ -17,12 +18,12 @@ NACA1 = 2
 
 NACA2 = 4
 
-N_pts = 4
+N_pts = 150
 
 
 x = np.linspace(0,1,N_pts)
 
-def main (NACA1: int, NACA2: int, N_pts: int, c):
+def calc (NACA1: int, NACA2: int, N_pts: int, c, AoA: float, V_inf: float):
     z_pt = z(x, NACA1, NACA2)
     #print(z_pt)
     angle_normal = angle_norm(x, z_pt)
@@ -46,8 +47,22 @@ def main (NACA1: int, NACA2: int, N_pts: int, c):
     Gamma = np.linalg.solve(a_ij, rhs)
     #print(Gamma)
     Cl, Cm = ClCm(Gamma, V_inf, c, x14)
-    print('Lift coefficient is', Cl)
-    print('Moment coefficient is', Cm)
+    return Cl, Cm
+
+def main (NACA1: int, NACA2: int, N_pts: int, c, AoA: list, V_inf: float):
+    Cl = np.zeros(len(AoA))
+    Cm = np.zeros(len(AoA))
+    
+    for i in range(len(AoA)):
+        Cl[i] = calc(NACA1, NACA2, N_pts, c, AoA[i], V_inf)[0]
+        Cm[i] = calc(NACA1, NACA2, N_pts, c, AoA[i], V_inf)[1]
+    
+    plt.plot(np.degrees(AoA), Cl)
+    plt.plot(np.degrees(AoA), Cm)
+    plt.xlabel('Angle of Attack [deg]')
+    plt.ylabel('Cl')
+    plt.show()
+
 
 if __name__ == "__main__":
-    main(NACA1, NACA2, N_pts, c)
+    main(NACA1, NACA2, N_pts, c, AoA, V_inf)
