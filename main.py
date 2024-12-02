@@ -6,7 +6,7 @@ from Vort2D import vel_vect, Q_inf, RHS, Coeff, ClCm
 
 #Conditions
 
-AoA = np.linspace(np.radians(-2), np.radians(8), 30)
+AoA = np.linspace(np.radians(-2), np.radians(8), 10)
 
 V_inf = 1
 
@@ -14,11 +14,11 @@ c = 1
 
 #NACA 4 digit airfoil
 
-NACA1 = 2
+NACA1 = 1
 
 NACA2 = 4
 
-N_pts = 150
+N_pts = 50
 
 
 x = np.linspace(0,1,N_pts)
