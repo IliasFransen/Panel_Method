@@ -6,7 +6,7 @@ from Vort2D import vel_vect, Q_inf, RHS, Coeff, ClCm
 
 #Conditions
 
-AoA = np.linspace(np.radians(-2), np.radians(8), 10)
+AoA = np.linspace(np.radians(-2), np.radians(8), 25)
 
 V_inf = 1
 
@@ -18,7 +18,7 @@ NACA1 = 1
 
 NACA2 = 4
 
-N_pts = 50
+N_pts = 100
 
 
 x = np.linspace(0,1,N_pts)
@@ -61,8 +61,11 @@ def main (NACA1: int, NACA2: int, N_pts: int, c, AoA: list, V_inf: float):
     plt.plot(np.degrees(AoA), Cm)
     plt.xlabel('Angle of Attack [deg]')
     plt.ylabel('Cl')
-    plt.show()
-
+    #plt.show()
+    #print((Cl[1]-Cl[0])/(AoA[1]-AoA[0]))
+    print(Cl)
+    print('---------------------------------------')
+    print(Cm)
 
 if __name__ == "__main__":
     main(NACA1, NACA2, N_pts, c, AoA, V_inf)
