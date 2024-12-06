@@ -26,6 +26,12 @@ AoA_xfoil = data_xfoil[:,0]
 Cl_xfoil = data_xfoil[:,1]
 Cm_xfoil = data_xfoil[:,2]
 
+# X Y Cp
+data_xfoil_CP = np.loadtxt("cp_xfoi.csv",
+                 delimiter=";", dtype=float)
+
+
+
 plt.plot(np.degrees(AoA_thin), Cl_thin, label = 'Cl Thin Airfoil Theory')
 plt.plot(AoA_xfoil, Cl_xfoil, label = 'Cl Xfoil')
 plt.plot(np.degrees(AoA_thin), Cm_thin, label = 'Cm Thin Airfoil Theory')
@@ -34,3 +40,4 @@ plt.legend()
 plt.xlabel('Angle of Attack [degr]')
 plt.ylabel('Coefficient')
 plt.show()
+
