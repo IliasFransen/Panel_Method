@@ -35,3 +35,11 @@ def ClCm (gamma: list, V_inf: float, c: float, x14: list):
     cl = 2*Gamma /(V_inf *c)
     cm = 2/(V_inf*c**2) * -np.sum(np.dot(gamma, x14)) 
     return cl, cm
+
+def Dcp (gamma: list, V_inf: float, x: list, z: list):
+    Dcp = np.zeros((len(x)-1))
+    for i in range(len(x)-1):
+        a = np.sqrt((x[i+1]-x[i])**2+(z[i+1]-z[i])**2)
+        Dcp[i] = 2*gamma[i]/(V_inf*a)
+    return Dcp
+

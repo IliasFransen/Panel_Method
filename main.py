@@ -2,11 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from Discretizer import z, angle_norm, Point14, Point34, norm
-from Vort2D import vel_vect, Q_inf, RHS, Coeff, ClCm
+from Vort2D import vel_vect, Q_inf, RHS, Coeff, ClCm, Dcp
 
 #Conditions
 
-AoA = np.linspace(np.radians(-2), np.radians(8), 25)
+AoA = [0] #np.linspace(np.radians(-2), np.radians(8), 25)
 
 V_inf = 1
 
@@ -18,54 +18,39 @@ NACA1 = 1
 
 NACA2 = 4
 
-N_pts = 100
+N_pts = 150
 
 
 x = np.linspace(0,1,N_pts)
 
 def calc (NACA1: int, NACA2: int, N_pts: int, c, AoA: float, V_inf: float):
     z_pt = z(x, NACA1, NACA2)
-    #print(z_pt)
     angle_normal = angle_norm(x, z_pt)
-    #print(np.degrees(angle_normal))
     x14, z14 = Point14(x, z_pt)
     x34, z34 = Point34(x, z_pt)
-    #print(x14)
-    #print(z14)
-    #print(x34)
-    #print(z34)
     normal = norm(angle_normal)
-    #print(normal)
     u, w = vel_vect(x14, z14, x34, z34)
-    #print(u)
     Q_infty = Q_inf(AoA, V_inf)
-    #print(Q_infty)
     rhs = RHS(normal, Q_infty)
-    #print(rhs)
     a_ij = Coeff(u, w, normal)
-    #print(a_ij)
     Gamma = np.linalg.solve(a_ij, rhs)
-    #print(Gamma)
     Cl, Cm = ClCm(Gamma, V_inf, c, x14)
-    return Cl, Cm
+    dCp = Dcp(Gamma, V_inf, x, z_pt)
+    return Cl, Cm, dCp
 
 def main (NACA1: int, NACA2: int, N_pts: int, c, AoA: list, V_inf: float):
     Cl = np.zeros(len(AoA))
     Cm = np.zeros(len(AoA))
+    Dcp = np.zeros((len(AoA), N_pts-1))
+    Gamma = np.zeros((len(AoA), N_pts-1))
     
     for i in range(len(AoA)):
-        Cl[i] = calc(NACA1, NACA2, N_pts, c, AoA[i], V_inf)[0]
-        Cm[i] = calc(NACA1, NACA2, N_pts, c, AoA[i], V_inf)[1]
+        Cl[i], Cm[i], Dcp[i], = calc(NACA1, NACA2, N_pts, c, AoA[i], V_inf)
     
-    plt.plot(np.degrees(AoA), Cl)
-    plt.plot(np.degrees(AoA), Cm)
-    plt.xlabel('Angle of Attack [deg]')
-    plt.ylabel('Cl')
-    #plt.show()
-    #print((Cl[1]-Cl[0])/(AoA[1]-AoA[0]))
-    print(Cl)
-    print('---------------------------------------')
-    print(Cm)
+    print(Cl, Cm)
+
+    plt.plot(np.linspace(0,1,N_pts-1), Dcp[0])
+    plt.show()
 
 if __name__ == "__main__":
     main(NACA1, NACA2, N_pts, c, AoA, V_inf)
