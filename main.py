@@ -45,13 +45,15 @@ def main (NACA1: int, NACA2: int, N_pts: int, c, AoA: list, V_inf: float):
     Dcp = np.zeros((len(AoA), N_pts-1))
     Gamma = np.zeros((len(AoA), N_pts-1))
     
-    for i in range(len(AoA)):
-        Cl[i], Cm[i], Dcp[i], = calc(NACA1, NACA2, N_pts, c, AoA[i], V_inf)
-        if AoA[i] == 0:
-            Dcp[i].tofile('Dcp_thin.csv', sep = ';')
+    #for i in range(len(AoA)):
+        #Cl[i], Cm[i], Dcp[i], = calc(NACA1, NACA2, N_pts, c, AoA[i], V_inf)
+        #if AoA[i] == 0:
+            #Dcp[i].tofile('Dcp_thin.csv', sep = ';')
 
-    Cl.tofile('Cl_thin.csv', sep = ';')
-    Cm.tofile('Cm_thin.csv', sep = ';')
+    #Cl.tofile('Cl_thin.csv', sep = ';')
+    #Cm.tofile('Cm_thin.csv', sep = ';')
+    print(Cl)
+
 
 if __name__ == "__main__":
     main(NACA1, NACA2, N_pts, c, AoA, V_inf)
