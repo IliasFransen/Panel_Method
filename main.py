@@ -6,7 +6,8 @@ from Vort2D import vel_vect, Q_inf, RHS, Coeff, ClCm, Dcp
 
 #Conditions
 
-AoA = [0] #np.linspace(np.radians(-2), np.radians(8), 25)
+AoA = np.arange(np.radians(-2), np.radians(8), np.radians(0.5))
+#AoA = [0]
 
 V_inf = 1
 
@@ -46,11 +47,11 @@ def main (NACA1: int, NACA2: int, N_pts: int, c, AoA: list, V_inf: float):
     
     for i in range(len(AoA)):
         Cl[i], Cm[i], Dcp[i], = calc(NACA1, NACA2, N_pts, c, AoA[i], V_inf)
-    
-    print(Cl, Cm)
+        if AoA[i] == 0:
+            Dcp[i].tofile('Dcp_thin.csv', sep = ';')
 
-    plt.plot(np.linspace(0,1,N_pts-1), Dcp[0])
-    plt.show()
+    Cl.tofile('Cl_thin.csv', sep = ';')
+    Cm.tofile('Cm_thin.csv', sep = ';')
 
 if __name__ == "__main__":
     main(NACA1, NACA2, N_pts, c, AoA, V_inf)
